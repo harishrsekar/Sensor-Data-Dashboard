@@ -35,8 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _fetchData() async {
-    final String apiKey = 'AIzaSyDgBVyxaGNXlI7-50RWv_2OL2ETFRQfR1Q';
-    final String databaseUrl =
+    const String apiKey = 'AIzaSyDgBVyxaGNXlI7-50RWv_2OL2ETFRQfR1Q';
+    const String databaseUrl =
         'https://scientificdatalogging001-default-rtdb.firebaseio.com/';
 
     setState(() {
@@ -92,12 +92,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         title: const Text(
           'Sensor Dashboard',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w100),
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w200),
         ),
         actions: [
           IconButton(
@@ -107,14 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blueAccent,
-              Colors.black],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+        color: Colors.white,
         child: _isLoading
             ? const Center(child: CircularProgressIndicator())
             : Padding(
@@ -126,6 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AttributeCard(
+                            topColor: Color.fromRGBO(75, 133, 230, 100),
+                            bottomColor: Color.fromRGBO(57, 110, 200, 100),
                             attribute: _attributes[0],
                             icon: Icons.water_outlined),
                       ],
@@ -134,13 +129,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AttributeCard(
-                            attribute: _attributes[1], icon: Icons.thermostat),
+                            topColor: Color.fromRGBO(53, 107, 197, 100),
+                            bottomColor: Color.fromRGBO(45, 81, 147, 100),
+                            attribute: _attributes[1],
+                            icon: Icons.thermostat),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AttributeCard(
+                            topColor: Color.fromRGBO(43,79,145, 100),
+                            bottomColor: Color.fromRGBO(29,60,107, 100),
                             attribute: _attributes[4],
                             icon: Icons.remove_red_eye_outlined),
                       ],
@@ -149,9 +149,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AttributeCard(
+                            topColor: Color.fromRGBO(28,55,99, 100),
+                            bottomColor: Color.fromRGBO(28,55,99, 100),
                             attribute: _attributes[2],
                             icon: Icons.cloud_outlined),
                         AttributeCard(
+                            topColor: Color.fromRGBO(28,55,99, 100),
+                            bottomColor: Color.fromRGBO(28,55,99, 100),
                             attribute: _attributes[5],
                             icon: Icons.science_outlined),
                       ],
@@ -160,6 +164,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AttributeCard(
+                            topColor: Color.fromRGBO(14,26,50, 100),
+                            bottomColor: Color.fromRGBO(4,7,14, 100),
                             attribute: _attributes[6],
                             icon: Icons.landscape_outlined),
                       ],
@@ -181,9 +187,16 @@ class DeviceAttribute {
 
 class AttributeCard extends StatelessWidget {
   final DeviceAttribute attribute;
-  final IconData? icon; // Icon parameter
+  final IconData? icon; // I
+  final Color topColor;
+  final Color bottomColor; // con parameter
 
-  const AttributeCard({Key? key, required this.attribute, this.icon})
+  const AttributeCard(
+      {Key? key,
+      required this.attribute,
+      this.icon,
+      required this.topColor,
+      required this.bottomColor})
       : super(key: key);
 
   @override
@@ -194,16 +207,17 @@ class AttributeCard extends StatelessWidget {
         child: Container(
           height: 120,
           child: GestureDetector(
-            onTap:() => showDialog<String>(
+            onTap: () => showDialog<String>(
               context: context,
-              builder: (BuildContext context) => AlertDialog(backgroundColor: Colors.blueAccent.shade100,
+              builder: (BuildContext context) => AlertDialog(
+                backgroundColor: Colors.blueAccent.shade100,
                 title: Text(attribute.name),
-                content: Image.network('https://miro.medium.com/v2/resize:fit:1358/0*4kX7gKz7U-5y4CPu'),
+                content: Image.network(
+                    'https://miro.medium.com/v2/resize:fit:1358/0*4kX7gKz7U-5y4CPu'),
                 actions: <Widget>[
                   TextButton(
-                    onPressed: () => Navigator.pop(context, 'OK'),
-                    child: const Text('OK')
-                  ),
+                      onPressed: () => Navigator.pop(context, 'OK'),
+                      child: const Text('OK')),
                 ],
               ),
             ) /*() async {await Get.dialog(Text('data'));}*/,
@@ -215,27 +229,35 @@ class AttributeCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10)),
               elevation: 0,
               color: Colors.white.withOpacity(0),
-              child: Center(
-                child: ListTile(
-                  leading: icon != null
-                      ? Icon(
-                          icon,
-                          color: Colors.white,
-                          size: 40,
-                        )
-                      : null,
-                  // Show icon if provided
-                  title: Text(attribute.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300)),
-                  subtitle: Text(attribute.value.toString(),
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w300)),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                        colors: [topColor, bottomColor],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter)),
+                child: Center(
+                  child: ListTile(
+                    leading: icon != null
+                        ? Icon(
+                            icon,
+                            color: Colors.white,
+                            size: 40,
+                          )
+                        : null,
+                    // Show icon if provided
+                    title: Text(attribute.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300)),
+                    subtitle: Text(attribute.value.toString(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w300)),
+                  ),
                 ),
               ),
             ),
