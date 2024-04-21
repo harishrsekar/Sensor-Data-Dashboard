@@ -35,9 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _fetchData() async {
-    const String apiKey = 'AIzaSyDgBVyxaGNXlI7-50RWv_2OL2ETFRQfR1Q';
+    const String apiKey = "YOUR API KEY";
     const String databaseUrl =
-        'https://scientificdatalogging001-default-rtdb.firebaseio.com/';
+        "YOUR DATABASE URL";
 
     setState(() {
       _isLoading = true;
