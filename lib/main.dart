@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:get/get.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,9 +34,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _fetchData() async {
-    const String apiKey = "YOUR API KEY";
+    const String apiKey = 'AIzaSyDgBVyxaGNXlI7-50RWv_2OL2ETFRQfR1Q';
     const String databaseUrl =
-        "YOUR DATABASE URL";
+        'https://scientificdatalogging001-default-rtdb.firebaseio.com/';
 
     setState(() {
       _isLoading = true;
@@ -53,13 +52,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
         // Mapping of keys from database to custom names
         final Map<String, String> customNames = {
-          'CONTACT_TEMPc': 'Water Temperature',
-          'CONTACT_TEMPf': 'Air Temperature',
+          'CONTACT_TEMPc': 'Water Temperature (in C)',
+          'CONTACT_TEMPf': 'Air Temperature (in F)',
           'HUMIDITY': 'Humidity',
           'TEMPERATURE': 'Temperature',
           'TURBIDITY': 'Turbidity',
           'pH_value': 'pH',
-          'segmentation': 'Segmentation Boxes',
+          'segmentation': 'Dissolved Oxygen',
         };
 
         // Loop through each key-value pair in the data
@@ -119,8 +118,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AttributeCard(
-                            topColor: Color.fromRGBO(75, 133, 230, 100),
-                            bottomColor: Color.fromRGBO(57, 110, 200, 100),
+                            topColor: const Color.fromRGBO(75, 133, 230, 100),
+                            bottomColor: const Color.fromRGBO(57, 110, 200, 100),
                             attribute: _attributes[0],
                             icon: Icons.water_outlined),
                       ],
@@ -129,8 +128,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AttributeCard(
-                            topColor: Color.fromRGBO(53, 107, 197, 100),
-                            bottomColor: Color.fromRGBO(45, 81, 147, 100),
+                            topColor: const Color.fromRGBO(53, 107, 197, 100),
+                            bottomColor: const Color.fromRGBO(45, 81, 147, 100),
                             attribute: _attributes[1],
                             icon: Icons.thermostat),
                       ],
@@ -139,8 +138,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AttributeCard(
-                            topColor: Color.fromRGBO(43,79,145, 100),
-                            bottomColor: Color.fromRGBO(29,60,107, 100),
+                            topColor: const Color.fromRGBO(43,79,145, 100),
+                            bottomColor: const Color.fromRGBO(29,60,107, 100),
                             attribute: _attributes[4],
                             icon: Icons.remove_red_eye_outlined),
                       ],
@@ -149,13 +148,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AttributeCard(
-                            topColor: Color.fromRGBO(28,55,99, 100),
-                            bottomColor: Color.fromRGBO(28,55,99, 100),
+                            topColor: const Color.fromRGBO(28,55,99, 100),
+                            bottomColor: const Color.fromRGBO(28,55,99, 100),
                             attribute: _attributes[2],
                             icon: Icons.cloud_outlined),
                         AttributeCard(
-                            topColor: Color.fromRGBO(28,55,99, 100),
-                            bottomColor: Color.fromRGBO(28,55,99, 100),
+                            topColor: const Color.fromRGBO(28,55,99, 100),
+                            bottomColor: const Color.fromRGBO(28,55,99, 100),
                             attribute: _attributes[5],
                             icon: Icons.science_outlined),
                       ],
@@ -164,8 +163,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AttributeCard(
-                            topColor: Color.fromRGBO(14,26,50, 100),
-                            bottomColor: Color.fromRGBO(4,7,14, 100),
+                            topColor: const Color.fromRGBO(28,55,99, 100),
+                            bottomColor: const Color.fromRGBO(14,26,50, 100),
                             attribute: _attributes[6],
                             icon: Icons.landscape_outlined),
                       ],
@@ -204,20 +203,26 @@ class AttributeCard extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(6.0),
-        child: Container(
+        child: SizedBox(
           height: 120,
           child: GestureDetector(
             onTap: () => showDialog<String>(
               context: context,
-              builder: (BuildContext context) => AlertDialog(
-                backgroundColor: Colors.blueAccent.shade100,
-                title: Text(attribute.name),
-                content: Image.network(
-                    'https://miro.medium.com/v2/resize:fit:1358/0*4kX7gKz7U-5y4CPu'),
+              builder: (BuildContext context) => AlertDialog(shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    color: Color.fromRGBO(131,210,225,0),
+                  ),
+                  borderRadius: BorderRadius.circular(10)),
+                backgroundColor: const Color.fromRGBO(131,210,225, 40),
+                title: Text(attribute.name, style: const TextStyle(fontSize: 22),),
+                content: Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                  child: Image.network(fit: BoxFit.fitHeight,
+                      'https://i.imgur.com/NXt2eJb.png'),
+                ),
                 actions: <Widget>[
                   TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
-                      child: const Text('OK')),
+                      onPressed: () => Navigator.pop(context, 'Close'),
+                      child: const Text('Close',style: TextStyle(fontSize: 22, fontWeight: FontWeight.w200),)),
                 ],
               ),
             ) /*() async {await Get.dialog(Text('data'));}*/,
